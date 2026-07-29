@@ -45,6 +45,8 @@ function abrirModal(event){
  /*   imagenModal.src = event.target.src;  */
 	const foto = event.currentTarget;
 
+alert("Click");
+
 	imagenModal.src = foto.src;
 	imagenModal.alt = foto.alt;
 
