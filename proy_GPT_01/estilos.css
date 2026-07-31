@@ -127,7 +127,7 @@ grid-template-columns:
     FOTO
 ----------------------------------------------------------*/
 
-.card img{
+.card > img{
 
     display:block;
 
@@ -192,9 +192,9 @@ grid-template-columns:
 
     max-width:95vw;
 
-    max-height:95vh;
+    max-height:95vh; 
 
-    object-fit:cover;
+    object-fit:contain;
 
 }
 
