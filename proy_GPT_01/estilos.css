@@ -158,24 +158,27 @@ grid-template-columns:
     MODAL
 ----------------------------------------------------------*/
 
+
 #modal{
 
     display:none;
 
     position:fixed;
 
-    inset:0;
+    top:0;
+    left:0;
 
-    background:rgba(0,0,0,.90);
+    width:100vw;
+    height:100vh;
+
+    background:rgba(0,0,0,.92);
+
+    z-index:9999;
 
     justify-content:center;
-
     align-items:center;
 
-    z-index:1000;
-
 }
-
 
 #modal.abierto{
 
@@ -186,23 +189,13 @@ grid-template-columns:
 
 #imagenModal{
 
- /*   width:auto;
-
-    height:auto;
-
-    max-width:95vw;
-
-    max-height:95vh; 
-
-    object-fit:contain; */
-
     display:block;
 
-    width:95vw;
+    max-width:95%;
 
-    height:auto;
+    max-height:90%;
 
-    max-height:95vh;
+    object-fit:contain; 
 
 }
 
