@@ -186,7 +186,7 @@ grid-template-columns:
 
 #imagenModal{
 
-    width:auto;
+ /*   width:auto;
 
     height:auto;
 
@@ -194,7 +194,15 @@ grid-template-columns:
 
     max-height:95vh; 
 
-    object-fit:contain;
+    object-fit:contain; */
+
+    display:block;
+
+    width:95vw;
+
+    height:auto;
+
+    max-height:95vh;
 
 }
 
