@@ -164,16 +164,23 @@ grid-template-columns:
 
     position:fixed;
 
-    inset:0;
+    /* inset:0; */
 
     /* background:rgba(0,0,0,.90); */
-    background: yellow;
+    background: orange;
 
     justify-content:center;
 
     align-items:center;
 
-    z-index:1000;
+    /* z-index:1000; */
+    z-index:9999;
+
+    top:0;
+    left:0;
+
+    width:100vw;
+    height:100vh;
 
 }
 
@@ -187,7 +194,7 @@ grid-template-columns:
 
 #imagenModal{
 
-    width:auto;
+/*    width:auto;
 
     height:auto;
 
@@ -195,7 +202,15 @@ grid-template-columns:
 
     max-height:95vh; 
 
-    object-fit:contain; 
+    object-fit:contain;  */
+
+    display:block;
+
+    max-width:95%;
+
+    max-height:90%;
+
+    object-fit:contain;
 
 }
 
