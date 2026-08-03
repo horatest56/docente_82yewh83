@@ -52,9 +52,12 @@ function abrirModal(event){
 
     modal.classList.add("abierto");
 
+console.log(window.innerWidth);
+console.log(window.innerHeight);
+console.log(imagenModal.clientWidth);
+console.log(imagenModal.clientHeight);
+
 }
-
-
 
 function cerrarModal(){
 
