@@ -62,10 +62,18 @@ function abrirModal(event){
 
     modal.classList.add("abierto");
 
-console.log(window.innerWidth);
-console.log(window.innerHeight);
-console.log(imagenModal.clientWidth);
-console.log(imagenModal.clientHeight);
+const hayTitulo = tituloModal.textContent.trim() !== "";
+const hayTexto  = textoModal.textContent.trim() !== "";
+
+if (!hayTitulo && !hayTexto) {
+
+    infoModal.style.display = "none";
+
+} else {
+
+    infoModal.style.display = "block";
+
+}
 
 }
 
