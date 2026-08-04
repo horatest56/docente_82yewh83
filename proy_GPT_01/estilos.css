@@ -236,21 +236,21 @@ grid-template-columns:
 
 #imagenModal{
 
-/*    width:auto;
-
-    height:auto;
-
-    max-width:95vw;
-
-    max-height:95vh; 
-
-    object-fit:contain;  */
-
-    display:block;
+/*    display:block;
 
     max-width:95%;
 
     max-height:90%;
+
+    object-fit:contain; */
+
+    display:block;
+
+    width:100%;
+
+    height:auto;
+
+    max-height:95vh;
 
     object-fit:contain;
 
@@ -261,16 +261,77 @@ grid-template-columns:
 
     position:absolute;
 
-    top:20px;
+    top:10px;
 
-    right:30px;
+    right:10px;
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(0,0,0,.6);
 
     color:white;
 
-    font-size:42px;
+    font-size:28px;
 
     cursor:pointer;
 
-    user-select:none;
+    z-index:10;
 
 }
+
+#contenidoModal{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    width:95vw;
+
+    max-width:1200px;
+
+    max-height:95vh;
+
+}
+
+#infoModal{
+
+    width:100%;
+
+    max-height:50vh;
+
+    overflow-y:auto;
+
+    box-sizing:border-box;
+
+    padding:18px;
+
+    background:white;
+
+    color:#222;
+}
+
+#tituloModal{
+
+    margin:0 0 12px;
+
+    font-size:1.4rem;
+}
+
+#textoModal{
+
+    line-height:1.6;
+
+    white-space:pre-line;
+
+}
+

@@ -14,6 +14,12 @@ const cerrar = document.getElementById("cerrar");
 
 const fotos = document.querySelectorAll(".foto");
 
+const tituloModal =
+    document.getElementById("tituloModal");
+
+const textoModal =
+    document.getElementById("textoModal");
+
 
 
 for (const foto of fotos){
@@ -42,13 +48,17 @@ modal.addEventListener("click", function(event){
 
 function abrirModal(event){
 
- /*   imagenModal.src = event.target.src;  */
-	const foto = event.currentTarget;
+    const card = event.currentTarget.closest(".card");
 
-	imagenModal.src = foto.src;
-	imagenModal.alt = foto.alt;
+    imagenModal.src = event.currentTarget.src;
 
-    imagenModal.alt = event.target.alt;
+    imagenModal.alt = event.currentTarget.alt;
+
+    tituloModal.textContent =
+        card.querySelector(".texto").textContent.trim();
+
+    textoModal.textContent =
+        card.querySelector(".descripcion").textContent.trim();
 
     modal.classList.add("abierto");
 
