@@ -1,0 +1,337 @@
+:root{
+    --ancho-card:260px;
+}
+
+
+/*----------------------------------------------------------
+    RESET
+----------------------------------------------------------*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+/*----------------------------------------------------------
+    BODY
+----------------------------------------------------------*/
+
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    background:#f2f2f2;
+
+}
+
+
+/*----------------------------------------------------------
+    HEADER
+----------------------------------------------------------*/
+
+header{
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    right: 0;
+
+    display: flex;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    background: white;
+
+    border-bottom: 1px solid #ccc;
+
+    z-index: 1000;
+
+}
+
+header_OLD_BORRAR{
+
+    position:sticky;
+
+    top:0;
+
+    display:flex;
+
+    gap:10px;
+
+    padding:15px;
+
+    background:white;
+
+    border-bottom:1px solid #cccccc;
+
+    z-index:100;
+
+}
+
+
+header button{
+
+    padding:8px 14px;
+
+    cursor:pointer;
+
+}
+
+
+/*----------------------------------------------------------
+    GRID
+----------------------------------------------------------*/
+
+.galeria{
+
+    display:grid;
+
+/*    grid-template-columns:
+        repeat(auto-fit,minmax(520px,1fr));  */
+grid-template-columns:
+    repeat(auto-fit,minmax(var(--ancho-card),1fr));
+
+    gap:20px;
+
+    /* padding:20px; */
+    padding:90px 20px 20px 20px;
+
+}
+
+
+/*----------------------------------------------------------
+    CARD
+----------------------------------------------------------*/
+
+.card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:white;
+
+    border-radius:10px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+
+}
+
+
+/*----------------------------------------------------------
+    FOTO
+----------------------------------------------------------*/
+
+.card > img{
+
+    display:block;
+
+    width:100%;
+
+    height:350px;
+
+    object-fit:cover;
+
+}
+
+
+/*----------------------------------------------------------
+    TEXTO
+----------------------------------------------------------*/
+
+.card p{
+
+    padding:15px;
+
+    line-height:1.5;
+
+    min-height:55px;
+
+}
+
+.texto{
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    padding:14px;
+
+    color:white;
+
+    font-size:1rem;
+
+    line-height:1.35em;
+
+    max-height:5em;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(0,0,0,.75)
+        );
+
+}
+
+.texto:empty{
+
+    display:none;
+
+}
+
+.descripcion{
+
+    display:none;
+
+}
+
+/*----------------------------------------------------------
+    MODAL
+----------------------------------------------------------*/
+
+#modal{
+
+    display:none;
+
+    position:fixed;
+
+    /* inset:0; */
+
+     background:rgba(0,0,0,.90); 
+     /* background: green; */
+
+    justify-content:center;
+
+    align-items:center;
+
+    /* z-index:1000; */
+    z-index:9999;
+
+    top:0;
+    left:0;
+
+    width:100vw;
+    height:100vh;
+
+}
+
+
+#modal.abierto{
+
+    display:flex;
+
+}
+
+
+#imagenModal{
+
+/*    display:block;
+
+    max-width:95%;
+
+    max-height:90%;
+
+    object-fit:contain; */
+
+    display:block;
+
+    width:100%;
+
+    height:auto;
+
+    max-height:60vh;
+
+    object-fit:contain;
+
+}
+
+
+#cerrar{
+
+    position:absolute;
+
+    top:10px;
+
+    right:10px;
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(0,0,0,.6);
+
+    color:white;
+
+    font-size:28px;
+
+    cursor:pointer;
+
+    z-index:10;
+
+}
+
+#contenidoModal{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    width:95vw;
+
+    max-width:1200px;
+
+    max-height:95vh;
+
+}
+
+#infoModal{
+
+    width:100%;
+
+    max-height:50vh;
+
+    overflow-y:auto;
+
+    box-sizing:border-box;
+
+    padding:18px;
+
+    background:white;
+
+    color:#222;
+}
+
+#tituloModal{
+
+    margin:0 0 12px;
+
+    font-size:1.4rem;
+}
+
+#textoModal{
+
+    line-height:1.6;
+
+    white-space:pre-line;
+
+}
+
