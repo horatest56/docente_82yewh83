@@ -20,7 +20,7 @@ const tituloModal =
 const textoModal =
     document.getElementById("textoModal");
 
-
+imagenModal.addEventListener("click", cerrarModal);
 
 for (const foto of fotos){
 

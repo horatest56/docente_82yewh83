@@ -335,3 +335,42 @@ grid-template-columns:
 
 }
 
+/* =====================================================
+   MODAL EN CELULAR HORIZONTAL (LANDSCAPE)
+   ===================================================== */
+
+@media (orientation: landscape) and (max-height: 600px) {
+
+    #contenidoModal{
+
+        width:100vw;
+        height:100vh;
+        max-width:none;
+        max-height:none;
+
+        margin:0;
+        padding:0;
+    }
+
+    #imagenModal{
+
+        width:100vw;
+        height:100vh;
+
+        max-width:none;
+        max-height:none;
+
+        object-fit:contain;
+    }
+
+    #cerrar{
+
+        display:none;
+    }
+
+    #infoModal{
+
+        display:none;
+    }
+
+}
