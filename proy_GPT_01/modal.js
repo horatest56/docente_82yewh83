@@ -83,3 +83,43 @@ function cerrarModal(){
 
 }
 
+function entrarPantallaCompleta() {
+
+    if (document.fullscreenElement) {
+        return;
+    }
+
+    document.documentElement.requestFullscreen();
+
+}
+
+
+function cambiarPantallaCompleta() {
+
+    if (document.fullscreenElement) {
+
+        document.exitFullscreen();
+
+    } else {
+
+        document.documentElement.requestFullscreen();
+
+    }
+
+}
+
+let ultimoToque = 0;
+
+imagenModal.addEventListener("touchend", function () {
+
+    const ahora = Date.now();
+
+    if (ahora - ultimoToque < 350) {
+
+        cambiarPantallaCompleta();
+
+    }
+
+    ultimoToque = ahora;
+
+});
