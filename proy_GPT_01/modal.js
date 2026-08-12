@@ -116,7 +116,7 @@ imagenModal.addEventListener("touchend", function () {
 
     if (ahora - ultimoToque < 350) {
 
-        cambiarPantallaCompleta();
+        entrarPantallaCompleta();
 
     }
 
