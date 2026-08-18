@@ -8,11 +8,14 @@
 
 const modal = document.getElementById("modal");
 
-const imagenModal = document.getElementById("imagenModal");
+const imagenModal =
+    document.getElementById("imagenModal");
 
-const cerrar = document.getElementById("cerrar");
+const cerrar =
+    document.getElementById("cerrar");
 
-const fotos = document.querySelectorAll(".foto");
+const galeria =
+    document.getElementById("galeria");
 
 const tituloModal =
     document.getElementById("tituloModal");
@@ -20,18 +23,41 @@ const tituloModal =
 const textoModal =
     document.getElementById("textoModal");
 
+const infoModal =
+    document.getElementById("infoModal");
+
+
+
+/*==========================================================
+    
+    CLICK SOBRE LAS FOTOS
+
+==========================================================*/
+
+galeria.addEventListener("click", function(event) {
+
+    const foto = event.target.closest(".foto");
+
+    if (!foto) {
+        return;
+    }
+
+    abrirModal(event);
+
+});
+
+
+
+/*==========================================================
+    
+    CERRAR MODAL
+
+==========================================================*/
+
 imagenModal.addEventListener("click", cerrarModal);
-
-for (const foto of fotos){
-
-    foto.addEventListener("click", abrirModal);
-
-}
-
 
 
 cerrar.addEventListener("click", cerrarModal);
-
 
 
 modal.addEventListener("click", function(event){
@@ -46,42 +72,87 @@ modal.addEventListener("click", function(event){
 
 
 
+/*==========================================================
+    
+    ABRIR MODAL
+
+==========================================================*/
+
 function abrirModal(event){
 
-    const card = event.currentTarget.closest(".card");
+    const foto = event.target.closest(".foto");
 
-    imagenModal.src = event.currentTarget.src;
+    if (!foto) {
+        return;
+    }
 
-    imagenModal.alt = event.currentTarget.alt;
+    const card =
+        foto.closest(".card");
+
+
+    imagenModal.src =
+        foto.src;
+
+    imagenModal.alt =
+        foto.alt;
+
 
     tituloModal.textContent =
-        card.querySelector(".texto").textContent.trim();
+        card.querySelector(".texto")
+            .textContent
+            .trim();
+
 
     textoModal.textContent =
-        card.querySelector(".descripcion").textContent.trim();
+        card.querySelector(".descripcion")
+            .textContent
+            .trim();
+
 
     modal.classList.add("abierto");
 
-const hayTitulo = tituloModal.textContent.trim() !== "";
-const hayTexto  = textoModal.textContent.trim() !== "";
 
-if (!hayTitulo && !hayTexto) {
+    const hayTitulo =
+        tituloModal.textContent.trim() !== "";
 
-    infoModal.style.display = "none";
 
-} else {
+    const hayTexto =
+        textoModal.textContent.trim() !== "";
 
-    infoModal.style.display = "block";
+
+    if (!hayTitulo && !hayTexto) {
+
+        infoModal.style.display = "none";
+
+    } else {
+
+        infoModal.style.display = "block";
+
+    }
 
 }
 
-}
+
+
+/*==========================================================
+    
+    CERRAR MODAL
+
+==========================================================*/
 
 function cerrarModal(){
 
     modal.classList.remove("abierto");
 
 }
+
+
+
+/*==========================================================
+    
+    PANTALLA COMPLETA
+
+==========================================================*/
 
 function entrarPantallaCompleta() {
 
@@ -92,6 +163,7 @@ function entrarPantallaCompleta() {
     document.documentElement.requestFullscreen();
 
 }
+
 
 
 function cambiarPantallaCompleta() {
@@ -108,17 +180,28 @@ function cambiarPantallaCompleta() {
 
 }
 
+
+
+/*==========================================================
+    
+    DOBLE TOQUE EN LA FOTO DEL MODAL
+
+==========================================================*/
+
 let ultimoToque = 0;
+
 
 imagenModal.addEventListener("touchend", function () {
 
     const ahora = Date.now();
+
 
     if (ahora - ultimoToque < 350) {
 
         entrarPantallaCompleta();
 
     }
+
 
     ultimoToque = ahora;
 
