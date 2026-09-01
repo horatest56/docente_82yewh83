@@ -56,7 +56,7 @@ fetch("fotos.csv")
             const divDescripcion = document.createElement("div");
 
             divDescripcion.className = "descripcion";
-            divDescripcion.textContent = descripcion;
+            divDescripcion.innerHTML = descripcion;
 
 
             // Armar la CARD

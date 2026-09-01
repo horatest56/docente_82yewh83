@@ -103,9 +103,9 @@ function abrirModal(event){
             .trim();
 
 
-    textoModal.textContent =
+    textoModal.innerHTML =
         card.querySelector(".descripcion")
-            .textContent
+            .innerHTML
             .trim();
 
 
