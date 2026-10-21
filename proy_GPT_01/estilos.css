@@ -363,6 +363,14 @@ grid-template-columns:
         object-fit:contain;
     }
 
+#imagenModal:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    background: black;
+    margin: 0;
+}
+
     #cerrar{
 
         display:none;

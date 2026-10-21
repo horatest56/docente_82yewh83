@@ -54,7 +54,7 @@ galeria.addEventListener("click", function(event) {
 
 ==========================================================*/
 
-imagenModal.addEventListener("click", cerrarModal);
+/* imagenModal.addEventListener("click", cerrarModal); */
 
 
 cerrar.addEventListener("click", cerrarModal);
@@ -70,6 +70,29 @@ modal.addEventListener("click", function(event){
 
 });
 
+
+/*==========================================================
+    
+    CLICK SOBRE LA IMAGEN DEL MODAL
+
+==========================================================*/
+
+imagenModal.addEventListener("click",manejarClickImagen);
+
+
+function manejarClickImagen() {
+
+    if (document.fullscreenElement) {
+
+        document.exitFullscreen();
+
+    } else {
+
+        imagenModal.requestFullscreen();
+
+    }
+
+}
 
 
 /*==========================================================
@@ -147,62 +170,3 @@ function cerrarModal(){
 }
 
 
-
-/*==========================================================
-    
-    PANTALLA COMPLETA
-
-==========================================================*/
-
-function entrarPantallaCompleta() {
-
-    if (document.fullscreenElement) {
-        return;
-    }
-
-    document.documentElement.requestFullscreen();
-
-}
-
-
-
-function cambiarPantallaCompleta() {
-
-    if (document.fullscreenElement) {
-
-        document.exitFullscreen();
-
-    } else {
-
-        document.documentElement.requestFullscreen();
-
-    }
-
-}
-
-
-
-/*==========================================================
-    
-    DOBLE TOQUE EN LA FOTO DEL MODAL
-
-==========================================================*/
-
-let ultimoToque = 0;
-
-
-imagenModal.addEventListener("touchend", function () {
-
-    const ahora = Date.now();
-
-
-    if (ahora - ultimoToque < 350) {
-
-        entrarPantallaCompleta();
-
-    }
-
-
-    ultimoToque = ahora;
-
-});
