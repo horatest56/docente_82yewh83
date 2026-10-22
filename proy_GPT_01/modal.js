@@ -1,177 +1,94 @@
+
 "use strict";
 
 /*==========================================================
-
     MODAL
-
 ==========================================================*/
 
 const modal = document.getElementById("modal");
-
-const imagenModal =
-    document.getElementById("imagenModal");
-
-const cerrar =
-    document.getElementById("cerrar");
-
-const galeria =
-    document.getElementById("galeria");
-
-const tituloModal =
-    document.getElementById("tituloModal");
-
-const textoModal =
-    document.getElementById("textoModal");
-
-const infoModal =
-    document.getElementById("infoModal");
-
+const imagenModal = document.getElementById("imagenModal");
+const cerrar = document.getElementById("cerrar");
+const galeria = document.getElementById("galeria");
+const tituloModal = document.getElementById("tituloModal");
+const textoModal = document.getElementById("textoModal");
+const infoModal = document.getElementById("infoModal");
 
 
 /*==========================================================
-    
-    CLICK SOBRE LAS FOTOS
-
+    CLICK SOBRE LAS FOTOS DEL ALBUM
 ==========================================================*/
 
 galeria.addEventListener("click", function(event) {
-
     const foto = event.target.closest(".foto");
 
-    if (!foto) {
-        return;
-    }
+    if (!foto) return;
 
     abrirModal(event);
-
 });
 
 
-
 /*==========================================================
-    
     CERRAR MODAL
-
 ==========================================================*/
-
-/* imagenModal.addEventListener("click", cerrarModal); */
-
 
 cerrar.addEventListener("click", cerrarModal);
 
-
-modal.addEventListener("click", function(event){
-
-    if(event.target === modal){
-
+modal.addEventListener("click", function(event) {
+    if (event.target === modal) {
         cerrarModal();
-
     }
-
 });
 
 
 /*==========================================================
-    
-    CLICK SOBRE LA IMAGEN DEL MODAL
-
-==========================================================*/
-
-imagenModal.addEventListener("click",manejarClickImagen);
-
-
-function manejarClickImagen() {
-
-    if (document.fullscreenElement) {
-
-        document.exitFullscreen();
-
-    } else {
-
-        imagenModal.requestFullscreen();
-
-    }
-
-}
-
-
-/*==========================================================
-    
     ABRIR MODAL
-
 ==========================================================*/
 
-function abrirModal(event){
-
+function abrirModal(event) {
     const foto = event.target.closest(".foto");
 
-    if (!foto) {
-        return;
-    }
+    if (!foto) return;
 
-    const card =
-        foto.closest(".card");
+    const card = foto.closest(".card");
 
-
-    imagenModal.src =
-        foto.src;
-
-    imagenModal.alt =
-        foto.alt;
-
+    imagenModal.src = foto.src;
+    imagenModal.alt = foto.alt;
 
     tituloModal.textContent =
-        card.querySelector(".texto")
-            .textContent
-            .trim();
-
+        card.querySelector(".texto").textContent.trim();
 
     textoModal.innerHTML =
-        card.querySelector(".descripcion")
-            .innerHTML
-            .trim();
-
+        card.querySelector(".descripcion").innerHTML.trim();
 
     modal.classList.add("abierto");
 
+    const hayTitulo = tituloModal.textContent.trim() !== "";
+    const hayTexto = textoModal.textContent.trim() !== "";
 
-    const hayTitulo =
-        tituloModal.textContent.trim() !== "";
+    infoModal.style.display =
+        (!hayTitulo && !hayTexto) ? "none" : "block";
 
-
-    const hayTexto =
-        textoModal.textContent.trim() !== "";
-
-
-    if (!hayTitulo && !hayTexto) {
-
-        infoModal.style.display = "none";
-
-    } else {
-
-        infoModal.style.display = "block";
-
-    }
-
+    restablecerZoom();
 }
 
 
-
 /*==========================================================
-    
     CERRAR MODAL
-
 ==========================================================*/
 
-function cerrarModal(){
-
+function cerrarModal() {
     modal.classList.remove("abierto");
 
+    if (document.fullscreenElement === imagenModal) {
+        document.exitFullscreen();
+    }
+
+    restablecerZoom();
 }
 
 
 /*==========================================================
-    PANTALLA COMPLETA Y ZOOM TÁCTIL
+    ZOOM Y DESPLAZAMIENTO
 ==========================================================*/
 
 let escala = 1;
@@ -202,37 +119,58 @@ function distanciaEntre(a, b) {
     return Math.hypot(a.x - b.x, a.y - b.y);
 }
 
-function manejarInicio(e) {
-    if (!document.fullscreenElement) return;
 
-    e.preventDefault();
+/*==========================================================
+    INICIO DEL GESTO
+==========================================================*/
 
-    puntos.set(e.pointerId, { x: e.clientX, y: e.clientY });
+imagenModal.addEventListener("pointerdown", function(event) {
+
+    // Fuera de pantalla completa, el clic se procesa al soltar.
+    if (document.fullscreenElement !== imagenModal) return;
+
+    event.preventDefault();
+
+    puntos.set(event.pointerId, {
+        x: event.clientX,
+        y: event.clientY
+    });
 
     if (puntos.size >= 2) {
         gestoMultiple = true;
         movimiento = true;
 
         const p = [...puntos.values()];
+
         distanciaInicial = distanciaEntre(p[0], p[1]);
         escalaInicial = escala;
     } else {
-        posicionX = e.clientX;
-        posicionY = e.clientY;
+        posicionX = event.clientX;
+        posicionY = event.clientY;
         movimiento = false;
     }
 
-    imagenModal.setPointerCapture(e.pointerId);
-}
+    imagenModal.setPointerCapture(event.pointerId);
+});
 
-function manejarMovimiento(e) {
-    if (!document.fullscreenElement ||
-        !puntos.has(e.pointerId)) return;
 
-    e.preventDefault();
+/*==========================================================
+    MOVIMIENTO: ZOOM O DESPLAZAMIENTO
+==========================================================*/
 
-    const anterior = puntos.get(e.pointerId);
-    puntos.set(e.pointerId, { x: e.clientX, y: e.clientY });
+imagenModal.addEventListener("pointermove", function(event) {
+
+    if (document.fullscreenElement !== imagenModal) return;
+    if (!puntos.has(event.pointerId)) return;
+
+    event.preventDefault();
+
+    const anterior = puntos.get(event.pointerId);
+
+    puntos.set(event.pointerId, {
+        x: event.clientX,
+        y: event.clientY
+    });
 
     if (puntos.size >= 2) {
         const p = [...puntos.values()];
@@ -241,8 +179,10 @@ function manejarMovimiento(e) {
         if (distanciaInicial > 0) {
             escala = Math.max(
                 1,
-                Math.min(5, escalaInicial *
-                    distanciaActual / distanciaInicial)
+                Math.min(
+                    5,
+                    escalaInicial * distanciaActual / distanciaInicial
+                )
             );
         }
 
@@ -250,43 +190,61 @@ function manejarMovimiento(e) {
         return;
     }
 
+    const dx = event.clientX - anterior.x;
+    const dy = event.clientY - anterior.y;
+
+    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+        movimiento = true;
+    }
+
     if (escala > 1) {
-        const dx = e.clientX - anterior.x;
-        const dy = e.clientY - anterior.y;
-
-        if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
-            movimiento = true;
-        }
-
         desplazamientoX += dx;
         desplazamientoY += dy;
         actualizarZoom();
     } else if (
-        Math.abs(e.clientX - posicionX) > 8 ||
-        Math.abs(e.clientY - posicionY) > 8
+        Math.abs(event.clientX - posicionX) > 8 ||
+        Math.abs(event.clientY - posicionY) > 8
     ) {
         movimiento = true;
     }
-}
+});
 
-function manejarFin(e) {
-    if (!puntos.has(e.pointerId)) return;
 
-    puntos.delete(e.pointerId);
+/*==========================================================
+    FIN DEL GESTO
+==========================================================*/
 
-    if (puntos.size === 1) {
-        // Después de pellizcar, no interpretar el dedo restante
-        // como un toque para salir.
+imagenModal.addEventListener("pointerup", finalizarGesto);
+imagenModal.addEventListener("pointercancel", finalizarGesto);
+
+function finalizarGesto(event) {
+
+    // Un clic o toque en el MODAL entra en pantalla completa.
+    if (document.fullscreenElement !== imagenModal) {
+        if (event.type === "pointerup") {
+            restablecerZoom();
+
+            imagenModal.requestFullscreen().catch(error => {
+                console.error("No se pudo entrar en pantalla completa:", error);
+            });
+        }
+
+        return;
+    }
+
+    if (!puntos.has(event.pointerId)) return;
+
+    puntos.delete(event.pointerId);
+
+    // Si queda otro dedo apoyado, no finalizar todavía.
+    if (puntos.size > 0) {
         gestoMultiple = true;
         return;
     }
 
-    if (puntos.size > 0) return;
-
-    if (!movimiento && !gestoMultiple) {
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        }
+    // Un toque sin movimiento vuelve al MODAL.
+    if (!movimiento && !gestoMultiple && event.type === "pointerup") {
+        document.exitFullscreen();
     }
 
     puntos.clear();
@@ -295,21 +253,17 @@ function manejarFin(e) {
     gestoMultiple = false;
 }
 
-imagenModal.addEventListener("pointerdown", manejarInicio);
-imagenModal.addEventListener("pointermove", manejarMovimiento);
-imagenModal.addEventListener("pointerup", manejarFin);
-imagenModal.addEventListener("pointercancel", manejarFin);
 
-/* Al entrar en pantalla completa, empezar sin zoom */
+/*==========================================================
+    CAMBIOS DE PANTALLA COMPLETA
+==========================================================*/
 
-document.addEventListener("fullscreenchange", function () {
-    if (document.fullscreenElement === imagenModal) {
-        restablecerZoom();
-    } else {
-        restablecerZoom();
-        puntos.clear();
-        movimiento = false;
-        gestoMultiple = false;
-    }
+document.addEventListener("fullscreenchange", function() {
+
+    restablecerZoom();
+
+    puntos.clear();
+    distanciaInicial = 0;
+    movimiento = false;
+    gestoMultiple = false;
 });
-
