@@ -363,12 +363,19 @@ grid-template-columns:
         object-fit:contain;
     }
 
+/* Zoom de la imagen en pantalla completa */
+
 #imagenModal:fullscreen {
     width: 100vw;
     height: 100vh;
     object-fit: contain;
     background: black;
     margin: 0;
+    padding: 0;
+    border: none;
+    touch-action: none;
+    transform-origin: center center;
+    cursor: zoom-in;
 }
 
     #cerrar{
