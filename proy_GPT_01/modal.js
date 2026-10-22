@@ -120,13 +120,27 @@ function distanciaEntre(a, b) {
 }
 
 
+
 /*==========================================================
-    INICIO DEL GESTO
+    ENTRADA EN PANTALLA COMPLETA
+==========================================================*/
+
+imagenModal.addEventListener("click", function() {
+    if (document.fullscreenElement === imagenModal) {
+        document.exitFullscreen();
+    } else {
+        imagenModal.requestFullscreen().catch(error => {
+            console.error("Error al entrar en pantalla completa:", error);
+        });
+    }
+});
+
+
+/*==========================================================
+    GESTOS TÁCTILES: SOLO EN PANTALLA COMPLETA
 ==========================================================*/
 
 imagenModal.addEventListener("pointerdown", function(event) {
-
-    // Fuera de pantalla completa, el clic se procesa al soltar.
     if (document.fullscreenElement !== imagenModal) return;
 
     event.preventDefault();
@@ -136,41 +150,36 @@ imagenModal.addEventListener("pointerdown", function(event) {
         y: event.clientY
     });
 
-    if (puntos.size >= 2) {
+    if (puntos.size === 1) {
+        posicionX = event.clientX;
+        posicionY = event.clientY;
+        movimiento = false;
+        gestoMultiple = false;
+    }
+
+    if (puntos.size === 2) {
         gestoMultiple = true;
         movimiento = true;
 
         const p = [...puntos.values()];
-
         distanciaInicial = distanciaEntre(p[0], p[1]);
         escalaInicial = escala;
-    } else {
-        posicionX = event.clientX;
-        posicionY = event.clientY;
-        movimiento = false;
     }
 
     imagenModal.setPointerCapture(event.pointerId);
 });
 
 
-/*==========================================================
-    MOVIMIENTO: ZOOM O DESPLAZAMIENTO
-==========================================================*/
-
 imagenModal.addEventListener("pointermove", function(event) {
-
     if (document.fullscreenElement !== imagenModal) return;
     if (!puntos.has(event.pointerId)) return;
 
     event.preventDefault();
 
     const anterior = puntos.get(event.pointerId);
+    const actual = { x: event.clientX, y: event.clientY };
 
-    puntos.set(event.pointerId, {
-        x: event.clientX,
-        y: event.clientY
-    });
+    puntos.set(event.pointerId, actual);
 
     if (puntos.size >= 2) {
         const p = [...puntos.values()];
@@ -179,10 +188,7 @@ imagenModal.addEventListener("pointermove", function(event) {
         if (distanciaInicial > 0) {
             escala = Math.max(
                 1,
-                Math.min(
-                    5,
-                    escalaInicial * distanciaActual / distanciaInicial
-                )
+                Math.min(5, escalaInicial * distanciaActual / distanciaInicial)
             );
         }
 
@@ -190,10 +196,11 @@ imagenModal.addEventListener("pointermove", function(event) {
         return;
     }
 
-    const dx = event.clientX - anterior.x;
-    const dy = event.clientY - anterior.y;
+    const dx = actual.x - anterior.x;
+    const dy = actual.y - anterior.y;
 
-    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+    if (Math.abs(actual.x - posicionX) > 8 ||
+        Math.abs(actual.y - posicionY) > 8) {
         movimiento = true;
     }
 
@@ -201,42 +208,19 @@ imagenModal.addEventListener("pointermove", function(event) {
         desplazamientoX += dx;
         desplazamientoY += dy;
         actualizarZoom();
-    } else if (
-        Math.abs(event.clientX - posicionX) > 8 ||
-        Math.abs(event.clientY - posicionY) > 8
-    ) {
-        movimiento = true;
     }
 });
 
-
-/*==========================================================
-    FIN DEL GESTO
-==========================================================*/
 
 imagenModal.addEventListener("pointerup", finalizarGesto);
 imagenModal.addEventListener("pointercancel", finalizarGesto);
 
 function finalizarGesto(event) {
-
-    // Un clic o toque en el MODAL entra en pantalla completa.
-    if (document.fullscreenElement !== imagenModal) {
-        if (event.type === "pointerup") {
-            restablecerZoom();
-
-            imagenModal.requestFullscreen().catch(error => {
-                console.error("No se pudo entrar en pantalla completa:", error);
-            });
-        }
-
-        return;
-    }
-
+    if (document.fullscreenElement !== imagenModal) return;
     if (!puntos.has(event.pointerId)) return;
 
     puntos.delete(event.pointerId);
 
-    // Si queda otro dedo apoyado, no finalizar todavía.
     if (puntos.size > 0) {
         gestoMultiple = true;
         return;
@@ -249,19 +233,15 @@ function finalizarGesto(event) {
 
     puntos.clear();
     distanciaInicial = 0;
-    movimiento = false;
-    gestoMultiple = false;
 }
 
 
 /*==========================================================
-    CAMBIOS DE PANTALLA COMPLETA
+    RESTABLECER AL CAMBIAR DE PANTALLA
 ==========================================================*/
 
 document.addEventListener("fullscreenchange", function() {
-
     restablecerZoom();
-
     puntos.clear();
     distanciaInicial = 0;
     movimiento = false;
