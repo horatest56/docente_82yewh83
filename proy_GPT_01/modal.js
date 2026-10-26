@@ -12,7 +12,7 @@ const galeria = document.getElementById("galeria");
 const tituloModal = document.getElementById("tituloModal");
 const textoModal = document.getElementById("textoModal");
 const infoModal = document.getElementById("infoModal");
-
+const pantallaFoto = document.getElementById("pantallaFoto");
 
 /*==========================================================
     CLICK SOBRE LAS FOTOS DEL ALBUM
@@ -126,22 +126,19 @@ function distanciaEntre(a, b) {
 ==========================================================*/
 
 imagenModal.addEventListener("click", function() {
-    if (document.fullscreenElement === imagenModal) {
-        document.exitFullscreen();
-    } else {
-        imagenModal.requestFullscreen().catch(error => {
+    if (document.fullscreenElement !== pantallaFoto) {
+        pantallaFoto.requestFullscreen().catch(error => {
             console.error("Error al entrar en pantalla completa:", error);
         });
     }
 });
-
 
 /*==========================================================
     GESTOS TÁCTILES: SOLO EN PANTALLA COMPLETA
 ==========================================================*/
 
 imagenModal.addEventListener("pointerdown", function(event) {
-    if (document.fullscreenElement !== imagenModal) return;
+    if ( document.fullscreenElement !== pantallaFoto) return;
 
     event.preventDefault();
 
@@ -171,7 +168,7 @@ imagenModal.addEventListener("pointerdown", function(event) {
 
 
 imagenModal.addEventListener("pointermove", function(event) {
-    if (document.fullscreenElement !== imagenModal) return;
+    if ( document.fullscreenElement !== pantallaFoto) return;
     if (!puntos.has(event.pointerId)) return;
 
     event.preventDefault();
@@ -216,7 +213,7 @@ imagenModal.addEventListener("pointerup", finalizarGesto);
 imagenModal.addEventListener("pointercancel", finalizarGesto);
 
 function finalizarGesto(event) {
-    if (document.fullscreenElement !== imagenModal) return;
+    if ( document.fullscreenElement !== pantallaFoto) return;
     if (!puntos.has(event.pointerId)) return;
 
     puntos.delete(event.pointerId);

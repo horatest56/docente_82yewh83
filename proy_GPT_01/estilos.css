@@ -389,3 +389,23 @@ grid-template-columns:
     }
 
 }
+
+#pantallaFoto:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    overflow: hidden;
+    touch-action: none;
+}
+
+#pantallaFoto:fullscreen #imagenModal {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    margin: 0;
+    touch-action: none;
+    transform-origin: center center;
+}
