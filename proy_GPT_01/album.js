@@ -1,3 +1,5 @@
+"use strict";
+
 fetch("fotos.csv")
     .then(response => {
 
@@ -31,41 +33,113 @@ fetch("fotos.csv")
             const texto = limpiarCampo(campos[1]);
             const descripcion = limpiarCampo(campos[2]);
 
-            // Crear ARTICLE
+
+            /*==================================================
+                CARD
+            ==================================================*/
+
             const card = document.createElement("article");
 
             card.className = "card";
 
 
-            // Crear IMG
-            const imagen = document.createElement("img");
+            /*==================================================
+                CONTENEDOR DE FOTO
+            ==================================================*/
+
+            const fotoWrapper =
+                document.createElement("div");
+
+            fotoWrapper.className =
+                "foto-wrapper";
+
+
+            /*==================================================
+                FOTO
+            ==================================================*/
+
+            const imagen =
+                document.createElement("img");
 
             imagen.className = "foto";
+
             imagen.src = foto;
-            imagen.alt = "Foto " + (indice + 1);
+
+            imagen.alt =
+                "Foto " + (indice + 1);
 
 
-            // Crear TEXTO
-            const divTexto = document.createElement("div");
+            /*==================================================
+                BOTÓN INFORMACIÓN
+            ==================================================*/
 
-            divTexto.className = "texto";
-            divTexto.textContent = texto;
+            const botonInfo =
+                document.createElement("button");
+
+            botonInfo.className =
+                "botonInfo";
+
+            botonInfo.textContent = "i";
+
+            botonInfo.type = "button";
+
+            botonInfo.title =
+                "Información de la fotografía";
 
 
-            // Crear DESCRIPCION
-            const divDescripcion = document.createElement("div");
+            /*==================================================
+                TEXTO
+            ==================================================*/
 
-            divDescripcion.className = "descripcion";
-            divDescripcion.innerHTML = descripcion;
+            const divTexto =
+                document.createElement("div");
+
+            divTexto.className =
+                "texto";
+
+            divTexto.textContent =
+                texto;
 
 
-            // Armar la CARD
-            card.appendChild(imagen);
+            /*==================================================
+                DESCRIPCIÓN
+            ==================================================*/
+
+            const divDescripcion =
+                document.createElement("div");
+
+            divDescripcion.className =
+                "descripcion";
+
+            // Permitimos HTML en la descripción
+            divDescripcion.innerHTML =
+                descripcion;
+
+
+            /*==================================================
+                ARMAR FOTO
+            ==================================================*/
+
+            fotoWrapper.appendChild(imagen);
+
+            fotoWrapper.appendChild(botonInfo);
+
+
+            /*==================================================
+                ARMAR CARD
+            ==================================================*/
+
+            card.appendChild(fotoWrapper);
+
             card.appendChild(divTexto);
+
             card.appendChild(divDescripcion);
 
 
-            // Agregar CARD al GRID
+            /*==================================================
+                AGREGAR CARD AL GRID
+            ==================================================*/
+
             galeria.appendChild(card);
 
         });
@@ -86,6 +160,8 @@ function limpiarCampo(campo) {
         return "";
     }
 
-    return campo.trim().replace(/^"|"$/g, "");
+    return campo
+        .trim()
+        .replace(/^"|"$/g, "");
 
 }

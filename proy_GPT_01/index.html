@@ -57,9 +57,70 @@
 
 </div>
 
+<!-- ===================================================== -->
+<!-- MODAL INFORMACIÓN -->
+<!-- ===================================================== -->
 
-<script src="modal.js?v=7"></script>
-<script src="album.js?v=1"></script>
+<div id="modalInfo">
+
+    <div id="contenidoModalInfo">
+
+        <button
+            id="cerrarInfo"
+            aria-label="Cerrar">&times;</button>
+
+
+        <img
+            id="imagenInfo"
+            src=""
+            alt="">
+
+
+        <div id="datosInfo">
+
+            <h2 id="tituloInfo"></h2>
+
+
+            <div
+                id="descripcionInfo">
+            </div>
+
+
+            <div class="datoInfo">
+
+                <strong>Fecha y hora:</strong>
+
+                <span id="fechaInfo">
+                </span>
+
+            </div>
+
+
+            <div class="datoInfo">
+
+                <strong>Ubicación:</strong>
+
+                <span id="ubicacionInfo">
+                </span>
+
+            </div>
+
+
+            <div
+                id="mapaInfo">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/exifr/dist/lite.umd.js"></script>
+
+<script src="modal.js?v=8"></script>
+<script src="album.js?v=2"></script>
+<script src="info.js?v=1"></script>
 
 
 <script>
